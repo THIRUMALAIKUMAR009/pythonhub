@@ -1,0 +1,29 @@
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+def hasCycle(head):
+    if not head:
+        return False
+    slow = head
+    fast = head
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+        if slow == fast:
+            return True
+    return False
+def printCycleStatus(head):
+    if hasCycle(head):
+        print("The linked list has a cycle.")
+    else:
+        print("The linked list does not have a cycle.")
+                        |___________________|
+head = ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5)))))
+head.next.next.next.next.next = head.next.next  
+
+printCycleStatus(head)  
+
+head_no_cycle = ListNode(1, ListNode(2, ListNode(3, ListNode(4))))
+
+printCycleStatus(head_no_cycle) 
