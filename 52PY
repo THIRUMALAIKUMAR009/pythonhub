@@ -1,0 +1,44 @@
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+def flatten(root):
+    def flatten_tree(node):
+        nonlocal last
+        if not node:
+            return
+        if node.left:
+            flatten_tree(node.left)
+        if node.right:
+            flatten_tree(node.right)
+        node.left = None
+        last.right = node
+        last = node
+    dummy = TreeNode(0)
+    last = dummy
+    flatten_tree(root)
+    root = dummy.right
+def printFlattenedTree(root):
+    while root:
+        print(root.val, end=" -> ")
+        root = root.right
+    print("None")
+def createBinaryTree(values):
+    if not values:
+        return None
+    nodes = [TreeNode(val) for val in values]
+    for i in range(len(values)):
+        left_index = 2 * i + 1
+        right_index = 2 * i + 2
+        if left_index < len(values):
+            nodes[i].left = nodes[left_index]
+        if right_index < len(values):
+            nodes[i].right = nodes[right_index]
+    return nodes[0]
+root = createBinaryTree([1, 2, 5, 3, 4, None, 6])
+print("Original tree (pre-order):")
+printFlattenedTree(root)
+flatten(root)
+print("Flattened tree:")
+printFlattenedTree(root)
