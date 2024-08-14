@@ -1,0 +1,17 @@
+def subsets(nums):
+    result = []
+    def backtrack(start, path):
+        result.append(path)
+        for i in range(start, len(nums)):
+            backtrack(i + 1, path + [nums[i]])
+    backtrack(0, [])
+    return result
+nums = [1, 2, 3]
+print(subsets(nums))
+def subsets(nums):
+    result = [[]]  # Start with the empty subset
+    for num in nums:
+        result += [curr + [num] for curr in result]
+    return result
+nums = [1, 2, 3]
+print(subsets(nums))
