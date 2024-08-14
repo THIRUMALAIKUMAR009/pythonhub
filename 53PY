@@ -1,0 +1,8 @@
+def findMissingNumber(nums):
+    n = len(nums)
+    expected_sum = n * (n + 1) // 2
+    actual_sum = sum(nums)
+    return expected_sum - actual_sum
+nums = [0, 1, 2, 4]
+missing_number = findMissingNumber(nums)
+print("The missing number is:", missing_number)
