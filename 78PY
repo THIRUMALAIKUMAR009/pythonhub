@@ -1,0 +1,24 @@
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def kthSmallest(root: TreeNode, k: int) -> int:
+    def in_order_traversal(node):
+        if not node:
+            return []
+        return in_order_traversal(node.left) + [node.val] + in_order_traversal(node.right)
+    sorted_values = in_order_traversal(root)
+    # Return the kth smallest element (1-indexed, so use k-1 for 0-indexed list)
+    return sorted_values[k-1]
+
+root = TreeNode(3)
+root.left = TreeNode(1)
+root.right = TreeNode(4)
+root.left.right = TreeNode(2)
+
+print(kthSmallest(root, 1)) 
+print(kthSmallest(root, 2))  
+print(kthSmallest(root, 3))  
+print(kthSmallest(root, 4))  
