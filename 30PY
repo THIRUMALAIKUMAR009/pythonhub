@@ -1,0 +1,22 @@
+def diffWaysToCompute(expression):
+    def compute(left, right, operator):
+        if operator == '+':
+            return [x + y for x in left for y in right]
+        elif operator == '-':
+            return [x - y for x in left for y in right]
+        elif operator == '*':
+            return [x * y for x in left for y in right]
+    def ways(expression):
+        result = []
+        if expression.isdigit():
+            return [int(expression)]
+        
+        for i, char in enumerate(expression):
+            if char in '+-*':
+                left_results = ways(expression[:i])
+                right_results = ways(expression[i+1:])
+                result.extend(compute(left_results, right_results, char))
+        return result
+    return ways(expression)
+expression = "2*3-4*5"
+print(diffWaysToCompute(expression))
