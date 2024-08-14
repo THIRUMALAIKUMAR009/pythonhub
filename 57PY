@@ -1,0 +1,11 @@
+def findTheDifference(s, t):
+    result = 0
+    for char in s:
+        result ^= ord(char)
+    for char in t:
+        result ^= ord(char)
+    return chr(result)
+s = "abcd"
+t = "abcde"
+extra_char = findTheDifference(s, t)
+print("The extra character is:", extra_char)
