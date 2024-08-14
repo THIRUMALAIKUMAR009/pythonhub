@@ -1,0 +1,40 @@
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+def buildTree(preorder, inorder):
+    def build(preorder_start, preorder_end, inorder_start, inorder_end):
+        if preorder_start > preorder_end or inorder_start > inorder_end:
+            return None
+        root_val = preorder[preorder_start]
+        root = TreeNode(root_val)
+        inorder_root_index = inorder_index_map[root_val]
+        left_tree_size = inorder_root_index - inorder_start
+        root.left = build(preorder_start + 1, preorder_start + left_tree_size, inorder_start, inorder_root_index - 1)
+        root.right = build(preorder_start + left_tree_size + 1, preorder_end, inorder_root_index + 1, inorder_end)
+        
+        return root
+    inorder_index_map = {value: index for index, value in enumerate(inorder)}
+    
+    return build(0, len(preorder) - 1, 0, len(inorder) - 1)
+preorder = [3, 9, 20, 15, 7]
+inorder = [9, 3, 15, 20, 7]
+
+root = buildTree(preorder, inorder)
+from collections import deque
+
+def print_level_order(root):
+    if not root:
+        return
+    
+    queue = deque([root])
+    while queue:
+        node = queue.popleft()
+        print(node.val, end=' ')
+        if node.left:
+            queue.append(node.left)
+        if node.right:
+            queue.append(node.right)
+
+print_level_order(root) 
