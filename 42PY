@@ -1,0 +1,34 @@
+from collections import deque
+def updateMatrix(mat):
+    if not mat or not mat[0]:
+        return []
+    m, n = len(mat), len(mat[0])
+    distance = [[float('inf')] * n for _ in range(m)]
+    queue = deque()
+    for i in range(m):
+        for j in range(n):
+            if mat[i][j] == 0:
+                queue.append((i, j))
+                distance[i][j] = 0
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+    while queue:
+        x, y = queue.popleft()
+        current_distance = distance[x][y]
+        for dx, dy in directions:
+            nx, ny = x + dx, y + dy
+            if 0 <= nx < m and 0 <= ny < n and distance[nx][ny] > current_distance + 1:
+                distance[nx][ny] = current_distance + 1
+                queue.append((nx, ny))
+    return distance
+mat = [
+    [0, 0, 0],
+    [0, 1, 0],
+    [0, 0, 0]
+]
+print(updateMatrix(mat)) 
+mat = [
+    [[0, 0, 0], 
+     [0, 1, 0], 
+     [1, 1, 1]]
+]
+print(updateMatrix(mat)) 
