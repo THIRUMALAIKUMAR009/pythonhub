@@ -1,0 +1,18 @@
+import heapq
+def kthSmallest(matrix, k):
+    n = len(matrix)
+    min_heap = []
+    for i in range(min(n, k)):  # We don't need to push more than k elements initially
+        heapq.heappush(min_heap, (matrix[i][0], i, 0))
+    for _ in range(k - 1):
+        val, r, c = heapq.heappop(min_heap)
+        if c + 1 < n:
+            heapq.heappush(min_heap, (matrix[r][c + 1], r, c + 1))
+    return heapq.heappop(min_heap)[0]
+matrix = [
+    [1, 5, 9],
+    [10, 11, 13],
+    [12, 13, 15]
+]
+k = 8
+print(f"The {k}th smallest element in the matrix is {kthSmallest(matrix, k)}")
