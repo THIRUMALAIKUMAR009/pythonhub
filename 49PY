@@ -1,0 +1,50 @@
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+def getLength(head):
+    length = 0
+    while head:
+        length += 1
+        head = head.next
+    return length
+def getIntersectionNode(headA, headB):
+    if not headA or not headB:
+        return None
+    lenA = getLength(headA)
+    lenB = getLength(headB)
+    while lenA > lenB:
+        headA = headA.next
+        lenA -= 1
+    while lenB > lenA:
+        headB = headB.next
+        lenB -= 1
+    while headA and headB:
+        if headA == headB:
+            return headA
+        headA = headA.next
+        headB = headB.next
+    return None
+def printList(head):
+    while head:
+        print(head.val, end=" -> ")
+        head = head.next
+    print("None")
+def createLinkedList(values, intersect_val=None):
+    head = ListNode(values[0])
+    current = head
+    intersect_node = None
+    for value in values[1:]:
+        current.next = ListNode(value)
+        current = current.next
+        if value == intersect_val:
+            intersect_node = current
+    return head, intersect_node
+headA, intersect_node_A = createLinkedList([1, 2, 3, 4, 5, 6, 7], 6)
+headB, intersect_node_B = createLinkedList([9, 6, 7], 6)
+currentA = headA
+while currentA.next:
+    currentA = currentA.next
+currentA.next = intersect_node_A
+intersection = getIntersectionNode(headA, headB)
+print("Intersection node value:", intersection.val if intersection else "None")
