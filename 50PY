@@ -1,0 +1,56 @@
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+def reverseKGroup(head, k):
+    def reverseLinkedList(head, k):
+        prev = None
+        curr = head
+        while k > 0:
+            next_node = curr.next
+            curr.next = prev
+            prev = curr
+            curr = next_node
+            k -= 1
+        return prev  # New head of the reversed segment
+    def getKthNode(head, k):
+        curr = head
+        while k > 1 and curr:
+            curr = curr.next
+            k -= 1
+        return curr
+    dummy = ListNode(0)
+    dummy.next = head
+    group_prev = dummy
+
+    while True:
+        group_end = getKthNode(group_prev, k)
+        if not group_end:
+            break
+        group_start = group_prev.next
+        next_group_start = group_end.next
+        group_end.next = None
+        reversed_group = reverseLinkedList(group_start, k)
+        group_prev.next = reversed_group
+        group_start.next = next_group_start
+        group_prev = group_start
+
+    return dummy.next
+def printList(head):
+    while head:
+        print(head.val, end=" -> ")
+        head = head.next
+    print("None")
+def createLinkedList(values):
+    head = ListNode(values[0])
+    current = head
+    for value in values[1:]:
+        current.next = ListNode(value)
+        current = current.next
+    return head
+head = createLinkedList([1, 2, 3, 4, 5])
+print("Original list:")
+printList(head)
+reversed_head = reverseKGroup(head, 3)
+print("Reversed list in groups of 3:")
+printList(reversed_head)
